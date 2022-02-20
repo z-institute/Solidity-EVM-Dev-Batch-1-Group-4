@@ -24,8 +24,8 @@ contract ZNtoken is ERC20 {
 
     /// @notice owner
     address public owner;
-    
-    modifier onlyOwner {
+
+    modifier onlyOwner() {
         require(msg.sender == owner);
         _;
     }
@@ -38,12 +38,12 @@ contract ZNtoken is ERC20 {
         bool _isPut,
         string memory name,
         string memory symbol
-    ) ERC20(name,symbol){
+    ) ERC20(name, symbol) {
         owner = msg.sender;
-        underlyingAsset = _underlyingAsset;//錨定資產
-        strikeAsset = _strikeAsset;//價格顯示資產
-        strikePrice = _strikePrice;//價格
-        expiryTimestamp = _expiryTimestamp;//到期日
+        underlyingAsset = _underlyingAsset; //錨定資產
+        strikeAsset = _strikeAsset; //價格顯示資產
+        strikePrice = _strikePrice; //價格
+        expiryTimestamp = _expiryTimestamp; //到期日
         isPut = _isPut;
     }
 
@@ -58,19 +58,24 @@ contract ZNtoken is ERC20 {
             bool
         )
     {
-        return (underlyingAsset, strikeAsset, strikePrice, expiryTimestamp, isPut);
+        return (
+            underlyingAsset,
+            strikeAsset,
+            strikePrice,
+            expiryTimestamp,
+            isPut
+        );
     }
 
-    function mintZNtoken(address account, uint256 amount) external onlyOwner{
+    function mintZNtoken(address account, uint256 amount) external onlyOwner {
         _mint(account, amount);
     }
 
-    function burnOtoken(address account, uint256 amount) external onlyOwner{
+    function burnOtoken(address account, uint256 amount) external onlyOwner {
         _burn(account, amount);
     }
 
-    function getBalance() public view returns (uint) {
+    function getBalance() public view returns (uint256) {
         return address(this).balance;
     }
-
 }

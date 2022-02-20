@@ -1,33 +1,85 @@
 // SPDX-License-Identifier: MIT
-pragma solidity > 0.6.10;
-import {Create2} from "../Create2.sol";
+pragma solidity ^0.8.12;
+import "./interfaces/ZNtokenInterface.sol";
+import "./ZNtoken.sol";
+import "hardhat/console.sol";
 
-contract ZNtokenFactory is ERC20 {
+contract ZNtokenFactory {
+    /// @notice expireday - (price -address)
+    mapping(uint256 => mapping(uint256 => address)) public expiryToZNtoken;
 
-    /// @notice expireday - (id -address)
-    mapping(uint256 => mapping(uint8 => address)) public expiryToZNtoken;
-    
     /// @dev max expiry that BokkyPooBahsDateTimeLibrary can handle. (2345/12/31)
     uint256 private constant MAX_EXPIRY = 11865398400;
 
-    constructor() public {
+    /// @notice price range
+    uint256 public range = 2;
 
-    }
+    /// @notice price interval
+    uint256 public interval = 1;
+
+    /// @notice product price
+    mapping(uint256 => uint256) public expiryDayToPrice;
+
+    ZNtoken public zntoken;
+
+    constructor() {}
 
     function createZNtoken(
-        string _underlyingAsset,
-        string _strikeAsset,
+        string memory _underlyingAsset,
+        string memory _strikeAsset,
         uint256 _strikePrice,
         uint256 _expiryTimestamp,
-        bool _isPut
-    ) external returns (address) {
-        require(_expiryTimestamp > now, "ZNtokenFactory: Can't create expired option");
-        require(_expiryTimestamp < MAX_EXPIRY, "ZNtokenFactory: Can't create option with expiry > 2345/12/31");
-        
-        Create2.deploy(0, 0x00, initcode);
+        bool _isPut,
+        string memory _name,
+        string memory _symbol,
+        uint256 _expiryDay
+    ) external returns (bool) {
+        require(
+            _expiryTimestamp > block.timestamp,
+            "ZNtokenFactory: Can't create expired option"
+        );
+        require(
+            _expiryTimestamp < MAX_EXPIRY,
+            "ZNtokenFactory: Can't create option with expiry > 2345/12/31"
+        );
+        require(
+            expiryDayToPrice[_expiryDay - 1] > 0,
+            "ZNtokenFactory: price is empty"
+        );
+        uint256 price = expiryDayToPrice[_expiryDay - 1];
+        for (uint256 i = 0; i <= range; i++) {
+            zntoken = new ZNtoken(
+                _underlyingAsset,
+                _strikeAsset,
+                _strikePrice,
+                _expiryTimestamp,
+                _isPut,
+                _name,
+                _symbol
+            );
+            expiryToZNtoken[_expiryDay][price + i] = address(zntoken);
+            console.log(address(zntoken));
+        }
+        return true;
     }
 
-    function getLiquidateData(uint256 expiryDay) external returns(address){
-        return expiryToZNtoken[expiryDay];
+    function updatePrice(uint256 _expiryDay, uint256 _price) external {
+        expiryDayToPrice[_expiryDay] = _price;
+    }
+
+    function buyOp(
+        uint256 _expiryDay,
+        uint256 _price,
+        address account,
+        uint256 amount
+    ) external payable {
+        address op = expiryToZNtoken[_expiryDay][_price];
+        ZNtokenInterface optoken = ZNtokenInterface(op);
+        optoken.mintZNtoken(account, amount);
+    }
+
+    function getLiquidateData(uint256 expiryDay) external view returns (bool) {
+        expiryToZNtoken[expiryDay];
+        return true;
     }
 }

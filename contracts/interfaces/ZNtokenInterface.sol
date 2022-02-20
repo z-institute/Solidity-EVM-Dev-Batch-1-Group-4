@@ -1,41 +1,31 @@
 // SPDX-License-Identifier: UNLICENSED
-pragma solidity 0.6.10;
+pragma solidity ^0.8.12;
 
 interface ZNtokenInterface {
-    function underlyingAsset() external view returns(address);
+    function underlyingAsset() external view returns (address);
 
-    function strikeAsset() external view returns(address);
+    function strikeAsset() external view returns (address);
 
-    function strikePrice() external view returns(uint256);
+    function strikePrice() external view returns (uint256);
 
-    function expiryTimestamp() external view returns(uint256);
+    function expiryTimestamp() external view returns (uint256);
 
-    function isPut() external view returns(bool);
+    function isPut() external view returns (bool);
 
-    function owner() external view returns(address);
-
-    function constructor(
-        string _underlyingAsset,
-        string _strikeAsset,
-        uint256 _strikePrice,
-        uint256 _expiryTimestamp,
-        bool _isPut,
-        string name,
-        string symbol,
-    );
+    function owner() external view returns (address);
 
     function getOtokenDetails()
-    external
-    view
-    returns(
-        string,
-        string,
-        uint256,
-        uint256,
-        bool
-    );
+        external
+        view
+        returns (
+            string memory,
+            string memory,
+            uint256,
+            uint256,
+            bool
+        );
 
-    function mintOtoken(address account, uint256 amount) external;
+    function mintZNtoken(address account, uint256 amount) external;
 
-    function burnOtoken(address account, uint256 amount) external;
+    function burnZNtoken(address account, uint256 amount) external;
 }

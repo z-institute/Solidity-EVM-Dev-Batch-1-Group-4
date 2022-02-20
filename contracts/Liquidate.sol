@@ -1,11 +1,8 @@
-pragma solidity > 0.6.10;
+// SPDX-License-Identifier: MIT
+pragma solidity >0.6.10;
 
-contract Liquidate{
+contract Liquidate {
+    constructor() public {}
 
-    constructor() public{
-    }
-
-    function getLiquidateData() external returns(bool){
-
-    }
+    function getLiquidateData() external returns (bool) {}
 }
