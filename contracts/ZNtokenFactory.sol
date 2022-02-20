@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.12;
-import "./interfaces/ZNtokenInterface.sol";
+import "./ZNtokenInterface.sol";
 import "./ZNtoken.sol";
 import "hardhat/console.sol";
 
@@ -58,7 +58,12 @@ contract ZNtokenFactory {
                 _symbol
             );
             expiryToZNtoken[_expiryDay][price + i] = address(zntoken);
-            console.log(address(zntoken));
+            console.log(
+                "_expiryDay:%,price:%,address:%",
+                _expiryDay,
+                price + i,
+                address(zntoken)
+            );
         }
         return true;
     }
@@ -67,7 +72,7 @@ contract ZNtokenFactory {
         expiryDayToPrice[_expiryDay] = _price;
     }
 
-    function buyOp(
+    function buyOP(
         uint256 _expiryDay,
         uint256 _price,
         address account,
