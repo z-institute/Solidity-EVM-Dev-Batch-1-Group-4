@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.12;
-import "./ZNtokenInterface.sol";
+import "./interfaces/ZNtokenInterface.sol";
 import "./ZNtoken.sol";
 import "hardhat/console.sol";
 
@@ -27,41 +27,51 @@ contract ZNtokenFactory {
     function createZNtoken(
         string memory _underlyingAsset,
         string memory _strikeAsset,
-        uint256 _strikePrice,
-        uint256 _expiryTimestamp,
-        bool _isPut,
-        string memory _name,
-        string memory _symbol,
-        uint256 _expiryDay
+        uint256 _expiryDay,
+        bool _isPut
     ) external returns (bool) {
+        // require(
+        //     _expiryTimestamp > block.timestamp,
+        //     "ZNtokenFactory: Can't create expired option"
+        // );
+        // require(
+        //     _expiryTimestamp < MAX_EXPIRY,
+        //     "ZNtokenFactory: Can't create option with expiry > 2345/12/31"
+        // );
         require(
-            _expiryTimestamp > block.timestamp,
-            "ZNtokenFactory: Can't create expired option"
-        );
-        require(
-            _expiryTimestamp < MAX_EXPIRY,
-            "ZNtokenFactory: Can't create option with expiry > 2345/12/31"
-        );
-        require(
-            expiryDayToPrice[_expiryDay - 1] > 0,
+            expiryDayToPrice[_expiryDay - 2] > 0,
             "ZNtokenFactory: price is empty"
         );
-        uint256 price = expiryDayToPrice[_expiryDay - 1];
+        uint256 price = expiryDayToPrice[_expiryDay - 2];
+        uint256 opPrice = 0;
+        console.log(price);
+
         for (uint256 i = 0; i <= range; i++) {
+            opPrice = price + i * 10;
+            console.log(opPrice);
+            string memory name = string(
+                abi.encodePacked(
+                    _underlyingAsset,
+                    "-",
+                    opPrice,
+                    "-",
+                    _expiryDay
+                )
+            );
             zntoken = new ZNtoken(
                 _underlyingAsset,
                 _strikeAsset,
-                _strikePrice,
-                _expiryTimestamp,
+                opPrice,
+                _expiryDay,
                 _isPut,
-                _name,
-                _symbol
+                name, //_name
+                name //_symbol
             );
-            expiryToZNtoken[_expiryDay][price + i] = address(zntoken);
+            expiryToZNtoken[_expiryDay][opPrice] = address(zntoken);
             console.log(
                 "_expiryDay:%,price:%,address:%",
                 _expiryDay,
-                price + i,
+                opPrice,
                 address(zntoken)
             );
         }
