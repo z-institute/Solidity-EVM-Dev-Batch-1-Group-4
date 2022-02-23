@@ -1,15 +1,15 @@
-# Basic Sample Hardhat Project
+專案流程
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, a sample script that deploys that contract, and an example of a task implementation, which simply lists the available accounts.
+step1. 部署合約 deploy contract ZNtokenFactory.sol
+	
+step2. 寫入新option的截止日和標準價格，(ZNtokenFactory.sol) function updatePrice.
 
-Try running some of the following tasks:
+step3. 新增所有 option token項目，(ZNtokenFactory.sol) function createZNtoken.
 
-```shell
-npx hardhat accounts
-npx hardhat compile
-npx hardhat clean
-npx hardhat test
-npx hardhat node
-node scripts/sample-script.js
-npx hardhat help
-```
+--
+
+step4. 交易者買option，(ZNtokenFactory.sol) function buyOP.
+
+--
+
+step5. 清算，（Liquidate.sol）...to be continued...

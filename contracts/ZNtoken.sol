@@ -14,7 +14,7 @@ contract ZNtoken is ERC20 {
     uint256 public strikePrice;
 
     /// @notice expiration timestamp of the option, represented as a unix timestamp
-    uint256 public expiryDay;
+    uint256 public expiryTimestamp;
 
     /// @notice True if a put option, False if a call option
     bool public isPut;
@@ -34,7 +34,7 @@ contract ZNtoken is ERC20 {
         string memory _underlyingAsset,
         string memory _strikeAsset,
         uint256 _strikePrice,
-        uint256 _expiryDay,
+        uint256 _expiryTimestamp,
         bool _isPut,
         string memory name,
         string memory symbol
@@ -43,7 +43,7 @@ contract ZNtoken is ERC20 {
         underlyingAsset = _underlyingAsset; //錨定資產
         strikeAsset = _strikeAsset; //價格顯示資產
         strikePrice = _strikePrice; //價格
-        expiryDay = _expiryDay; //到期日
+        expiryTimestamp = _expiryTimestamp; //到期日
         isPut = _isPut;
     }
 
@@ -58,7 +58,13 @@ contract ZNtoken is ERC20 {
             bool
         )
     {
-        return (underlyingAsset, strikeAsset, strikePrice, expiryDay, isPut);
+        return (
+            underlyingAsset,
+            strikeAsset,
+            strikePrice,
+            expiryTimestamp,
+            isPut
+        );
     }
 
     function mintZNtoken(address account, uint256 amount) external onlyOwner {
