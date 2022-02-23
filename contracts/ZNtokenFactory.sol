@@ -46,8 +46,11 @@ contract ZNtokenFactory {
         uint256 opPrice = 0;
         console.log(price);
 
-        for (uint256 i = 0; i <= range; i++) {
+        for (uint256 i = 0 - range; i <= range; i++) {
             opPrice = price + i * 10;
+            if (opPrice < 0) {
+                continue; //price need more than the zero
+            }
             console.log(opPrice);
             string memory name = string(
                 abi.encodePacked(
