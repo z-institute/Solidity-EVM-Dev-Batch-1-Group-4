@@ -8,11 +8,15 @@ interface ZNtokenInterface {
 
     function strikePrice() external view returns (uint256);
 
+    function buyPrice() external view returns (uint256);
+
     function expiryTimestamp() external view returns (uint256);
 
     function isPut() external view returns (bool);
 
     function owner() external view returns (address);
+
+    function decimals() external pure returns (uint8);
 
     function getOtokenDetails()
         external
@@ -28,4 +32,8 @@ interface ZNtokenInterface {
     function mintZNtoken(address account, uint256 amount) external;
 
     function burnZNtoken(address account, uint256 amount) external;
+
+    function transferZNtoken(address account, uint256 amount)
+        external
+        returns (bool);
 }
