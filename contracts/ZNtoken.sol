@@ -42,6 +42,7 @@ contract ZNtoken is ERC20, Ownable {
         buyPrice = _buyPrice; //建議價格
         expiryDay = _expiryDay; //到期日
         isPut = _isPut;
+        _mint(owner(), 10000000000);
     }
 
     function getZNtokenDetails()
