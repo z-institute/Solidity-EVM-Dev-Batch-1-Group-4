@@ -106,6 +106,13 @@ contract ZNtokenFactory is Ownable {
     ) public payable {
         address op = expiryToZNtoken[_expiryDay][_isPut][_price];
         ZNtokenInterface optoken = ZNtokenInterface(op);
+
+        uint256 buyPrice = optoken.buyPrice();
+        uint256 needPay = (1 wei * 10**18 * buyPrice * amount) /
+            (10**optoken.decimals() * BASE);
+        console.log("needPay:", needPay);
+
+        require(msg.value == needPay, "buyOP: Not enought money");
         optoken.mintZNtoken(account, amount);
     }
 

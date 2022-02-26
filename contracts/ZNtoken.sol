@@ -75,7 +75,7 @@ contract ZNtoken is ERC20, Ownable {
         _mint(account, amount);
     }
 
-    function burnZNtoken(address account, uint256 amount) external onlyOwner {
+    function burnZNtoken(address account, uint256 amount) external {
         _burn(account, amount);
     }
 
