@@ -145,25 +145,29 @@ contract ZNtokenFactory is Ownable {
         uint256 _avgPrice,
         uint256 _range,
         uint256 _base
-    ) public pure returns (uint256[] memory strikePrices, uint256 index) {
+    ) public view returns (uint256[] memory strikePrices, uint256 index) {
         strikePrices = new uint256[](20);
         //downRange
         uint256 downRange = _avgPrice / _base;
-        for (uint256 i = downRange; i >= 1; i--) {
+        uint256 lowest = range;
+        if (downRange < range) {
+            lowest = downRange; //lowest price is 1 ether
+        }
+        for (uint256 i = lowest; i > 0; i--) {
             //console.log("i*base", i * _base);
             if (_avgPrice > i * _base) {
                 strikePrices[index] = _avgPrice - i * _base;
-                //console.log("strikePrices:", strikePrices[index]);
+                console.log("strikePrices:", strikePrices[index]);
                 index++;
             }
         }
         //upRange
         for (uint256 i = 0; i <= _range; i++) {
             strikePrices[index] = _avgPrice + i * _base;
-            //console.log("strikePrices2:", strikePrices[index]);
+            console.log("strikePrices2:", strikePrices[index]);
             index++;
         }
-        //console.log("index:", index);
+        console.log("index:", index);
     }
 
     function getBuyPrice(
@@ -210,7 +214,7 @@ contract ZNtokenFactory is Ownable {
         uint256 _expiryDay,
         uint256 _buyPrice,
         bool _isPut
-    ) internal pure returns (string memory, string memory) {
+    ) public pure returns (string memory, string memory) {
         return (
             string(
                 abi.encodePacked(
