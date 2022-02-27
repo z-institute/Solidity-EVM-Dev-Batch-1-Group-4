@@ -1,4 +1,4 @@
-const { expectRevert, expectEvent } = require('@openzeppelin/test-helpers')
+// const { expectRevert, expectEvent } = require('@openzeppelin/test-helpers')
 const { expect,assert } = require("chai");
 const { ethers, waffle } = require("hardhat");
 const provider = waffle.provider;
@@ -57,7 +57,7 @@ describe("ZNtokenFactory contract", function(){
         expect(liquidateAfterSend).to.equal(sendToLiquidate);
     });
 
-    it('update price', async function(){
+    it('#updatePrice', async function(){
         twoDayAgoAvgPrice = 100;
         yesterdayAvgPrice = 105;
         todayAvgPrice = 111;
