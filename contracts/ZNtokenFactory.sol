@@ -2,7 +2,6 @@
 pragma solidity ^0.8.12;
 import "./interfaces/ZNtokenInterface.sol";
 import "./ZNtoken.sol";
-import "./PriceOracle.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 import "hardhat/console.sol";
@@ -26,9 +25,6 @@ contract ZNtokenFactory is Ownable {
 
     /// @notice mint token from others ERC20 contract
     ZNtoken internal zntoken;
-
-    /// @notice priceOracle
-    PriceOracle internal _priceOracle;
 
     struct StrikePriceToContractAddress {
         uint256 strikePrice;
@@ -82,7 +78,7 @@ contract ZNtokenFactory is Ownable {
                 _expiryDay,
                 _isPut,
                 name, //_name
-                symbol //_symbol
+                name //_symbol
             );
             expiryToZNtoken[_expiryDay][_isPut][strikePrice] = address(zntoken);
         }

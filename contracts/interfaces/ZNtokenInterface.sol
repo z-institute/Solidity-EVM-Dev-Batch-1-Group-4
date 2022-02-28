@@ -2,15 +2,15 @@
 pragma solidity ^0.8.12;
 
 interface ZNtokenInterface {
-    function underlyingAsset() external view returns (address);
+    function underlyingAsset() external view returns (string memory);
 
-    function strikeAsset() external view returns (address);
+    function strikeAsset() external view returns (string memory);
 
     function strikePrice() external view returns (uint256);
 
     function buyPrice() external view returns (uint256);
 
-    function expiryTimestamp() external view returns (uint256);
+    function expiryDay() external view returns (uint256);
 
     function isPut() external view returns (bool);
 
