@@ -90,4 +90,17 @@ contract Liquidate is Ownable {
     }
 
     receive() external payable {}
+
+    function withdraw(address payable _recipient)
+        external
+        onlyOwner
+        returns (bool)
+    {
+        _recipient.transfer(address(this).balance);
+        return true;
+    }
+
+    function getContractBalance() public view returns (uint256) {
+        return address(this).balance;
+    }
 }
