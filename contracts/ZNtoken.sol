@@ -45,27 +45,27 @@ contract ZNtoken is ERC20, Ownable {
         _mint(owner(), 10000000000);
     }
 
-    function getZNtokenDetails()
-        external
-        view
-        returns (
-            string memory,
-            string memory,
-            uint256,
-            uint256,
-            uint256,
-            bool
-        )
-    {
-        return (
-            underlyingAsset,
-            strikeAsset,
-            strikePrice,
-            buyPrice,
-            expiryDay,
-            isPut
-        );
-    }
+    // function getZNtokenDetails()
+    //     external
+    //     view
+    //     returns (
+    //         string memory,
+    //         string memory,
+    //         uint256,
+    //         uint256,
+    //         uint256,
+    //         bool
+    //     )
+    // {
+    //     return (
+    //         underlyingAsset,
+    //         strikeAsset,
+    //         strikePrice,
+    //         buyPrice,
+    //         expiryDay,
+    //         isPut
+    //     );
+    // }
 
     function decimals() public pure override returns (uint8) {
         return 2;
