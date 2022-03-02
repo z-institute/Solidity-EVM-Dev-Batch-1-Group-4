@@ -4,7 +4,7 @@ const { ethers, waffle } = require("hardhat");
 const provider = waffle.provider;
 
 //contractInstance
-let ZNtokenFactory, znTokenFactory, ZNtoken, Liquidate, liquidate;
+let ZNtokenFactory, znTokenFactory, ZNtoken, znToken, Liquidate, liquidate;
 
 //date
 let todayDate, yesterdayDate, twoDayAgoDate;
@@ -501,4 +501,30 @@ describe("ZNtokenFactory contract", function(){
         const afterContractBalance = await liquidate.getContractBalance();
         expect(afterContractBalance).to.equal(0);    
     });
+});
+
+describe("ZNtoken contract", function(){
+
+    it('should deploy', async function(){
+
+        ZNtoken = await ethers.getContractFactory("ZNtoken");
+        znToken = await ZNtoken.deploy(
+            "_underlyingAsset",
+            "_strikeAsset",
+            70,
+            1,
+            20220224,
+            true,
+            "tokenName",
+            "tokenSymbol");
+        assert.notEqual(znToken.addres, ZERO_ADDR, 'check failed on deployed token.');
+    });
+    
+    it('should deploy', async function(){
+
+        const znBalance = await znToken.getBalance();
+        console.log("znBalance :", znBalance);
+        expect(znBalance).to.equal(0);
+    });
+
 });
