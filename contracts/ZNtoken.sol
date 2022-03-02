@@ -79,14 +79,14 @@ contract ZNtoken is ERC20, Ownable {
         _burn(account, amount);
     }
 
-    function transferZNtoken(address account, uint256 amount)
-        external
-        returns (bool _isTransfer)
-    {
-        _isTransfer = false;
-        transfer(account, amount);
-        _isTransfer = true;
-    }
+    // function transferZNtoken(address account, uint256 amount)
+    //     external
+    //     returns (bool _isTransfer)
+    // {
+    //     _isTransfer = false;
+    //     transfer(account, amount);
+    //     _isTransfer = true;
+    // }
 
     function getBalance() public view returns (uint256) {
         return address(this).balance;
